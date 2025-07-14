@@ -28,8 +28,9 @@ CREATE TABLE IF NOT EXISTS gate.btc_orderbook (
 
 -- Таблица сделок (трейдов) — партиционирование по дню, PK = trade_id (unique по всей таблице)
 CREATE TABLE IF NOT EXISTS gate.btc_trades (
-    trade_id BIGINT PRIMARY KEY DEFAULT nextval('gate.btc_trades_seq'),
+    trade_id BIGINT NOT NULL DEFAULT nextval('gate.btc_trades_seq'),
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    PRIMARY KEY (timestamp, trade_id),
     price DOUBLE PRECISION NOT NULL,
     qty DOUBLE PRECISION NOT NULL,
     side trade_side NOT NULL
