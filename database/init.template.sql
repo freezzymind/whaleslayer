@@ -1,5 +1,5 @@
 -- Создание схемы для биржи
-CREATE SCHEMA IF NOT EXISTS gate AUTHORIZATION postgres;
+CREATE SCHEMA IF NOT EXISTS gate;
 
 -- Создание ENUM-типа для side (фиксированные значения)
 CREATE TYPE trade_side AS ENUM ('buy', 'sell', 'b', 's');
