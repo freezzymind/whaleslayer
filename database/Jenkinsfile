@@ -59,7 +59,7 @@ pipeline {
                 ssh root@${ip} '
                 cd ./projects/whaleslayer/database &&
                 sudo chown 999:999 ./postgresql.conf &&
-                sudo chmod 644 ./postgresql.conf &&
+                sudo chmod 644 ./postgresql.conf
                 '
 
                 echo "[*] Сборка и деплой БД"
