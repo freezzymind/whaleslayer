@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -a
-source ../.env
+set -ae
+source /root/projects/whaleslayer/.env
 set +a
 
 # Подстановка переменных в шаблон init.template.sql → init.generated.sql
