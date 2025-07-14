@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: whaleslayer
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    env_file:
+      - ../.env
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./init.generated.sql:/docker-entrypoint-initdb.d/init.sql
+    command: -c config_file=/etc/postgresql/postgresql.conf
+    shm_size: 512m
+    networks:
+      - whaleslayer_local
+
+networks:
+  whaleslayer_local:
+    external: true
