@@ -4,15 +4,15 @@
 CREATE SCHEMA IF NOT EXISTS ${SCHEMA};
 
 -- Создание ENUM-типа для side (фиксированные значения)
-CREATE TYPE trade_side AS ENUM ('buy', 'sell', 'b', 's');
+CREATE TYPE ${SCHEMA}.trade_side AS ENUM ('buy', 'sell', 'b', 's');
 
 -- Sequence для trade_id (на случай вставки без внешнего id)
-CREATE SEQUENCE IF NOT EXISTS ${SCHEMA}.${CURRENCY}_trades_seq;
+CREATE SEQUENCE IF NOT EXISTS ${SEQ_NAME};
 
 -- ====== Основные таблицы (мастера) ======
 
 -- Таблица свечей (candles) — партиционирование по дню, PK = timestamp
-CREATE TABLE IF NOT EXISTS ${SCHEMA}.${CURRENCY}_candles (
+CREATE TABLE IF NOT EXISTS ${CANDLES} (
     timestamp TIMESTAMP WITHOUT TIME ZONE PRIMARY KEY,
     open DOUBLE PRECISION NOT NULL,
     high DOUBLE PRECISION NOT NULL,
@@ -22,25 +22,25 @@ CREATE TABLE IF NOT EXISTS ${SCHEMA}.${CURRENCY}_candles (
 ) PARTITION BY RANGE (timestamp);
 
 -- Таблица ордербуков — партиционирование по дню, PK = timestamp
-CREATE TABLE IF NOT EXISTS ${SCHEMA}.${CURRENCY}_orderbook (
+CREATE TABLE IF NOT EXISTS ${ORDERBOOK} (
     timestamp TIMESTAMP WITHOUT TIME ZONE PRIMARY KEY,
     bids JSONB NOT NULL,
     asks JSONB NOT NULL
 ) PARTITION BY RANGE (timestamp);
 
 -- Таблица сделок (трейдов) — партиционирование по дню, PK = trade_id (unique по всей таблице)
-CREATE TABLE IF NOT EXISTS ${SCHEMA}.${CURRENCY}_trades (
-    trade_id BIGINT NOT NULL DEFAULT nextval('${SCHEMA}.${CURRENCY}_trades_seq'),
+CREATE TABLE IF NOT EXISTS ${TRADES} (
+    trade_id BIGINT NOT NULL DEFAULT nextval('${SEQ_NAME}'),
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     PRIMARY KEY (timestamp, trade_id),
     price DOUBLE PRECISION NOT NULL,
     qty DOUBLE PRECISION NOT NULL,
-    side trade_side NOT NULL
+    side ${SCHEMA}.trade_side NOT NULL
 ) PARTITION BY RANGE (timestamp);
 
 -- ====== Индексы для trades ======
 -- Для всех новых партиций индекс создается автоматически, если создать на мастер-таблице:
-CREATE INDEX IF NOT EXISTS idx_${CURRENCY}_trades_timestamp ON ${SCHEMA}.${CURRENCY}_trades (timestamp);
+CREATE INDEX IF NOT EXISTS ${INDEX} ON ${TRADES} (timestamp);
 
 -- ====== Создание пользователей ======
 CREATE USER collector WITH PASSWORD '${COLLECTOR_PASSWORD}';
@@ -90,5 +90,3 @@ GRANT CREATE ON SCHEMA TO partition_manager;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA ${SCHEMA}
 GRANT SELECT ON TABLES TO reader, analyst;
-
-
