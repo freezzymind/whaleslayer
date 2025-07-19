@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  postgres:
+  whaleslayerdb:
     image: postgres:16
     container_name: whaleslayerdb
     restart: always
