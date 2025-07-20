@@ -48,7 +48,7 @@ services:
     env_file:
       - /root/projects/whaleslayer/.env
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./grafana-data:/var/lib/grafana
     networks:
       - whaleslayer_local
 
@@ -64,7 +64,7 @@ services:
     env_file:
     - /root/projects/whaleslayer/.env
     volumes:
-    - pgadmin_data:/var/lib/pgadmin
+    - ./pgadmin_data:/var/lib/pgadmin
     networks:
     - whaleslayer_local
 
