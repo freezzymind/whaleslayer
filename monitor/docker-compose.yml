@@ -32,7 +32,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
-      - "10.0.0.1:9090:9090"
+      - "0.0.0.0:9090:9090"
     networks:
       - whaleslayer_local
 
@@ -41,7 +41,7 @@ services:
     container_name: grafana
     restart: always
     ports:
-      - "10.0.0.1:3000:3000"
+      - "0.0.0.0:3000:3000"
     environment:
       - GF_USER=${GF_USER}
       - GF_PASSWORD=${GF_PASSWORD}
@@ -57,7 +57,7 @@ services:
     container_name: pgadmin
     restart: always
     ports:
-    - "10.0.0.1:8080:80"
+    - "0.0.0.0:8080:80"
     environment:
     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
