@@ -32,7 +32,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
-      - "10.0.0.1:9090:9090"
+      - "0.0.0.0:9090:9090"
     networks:
       - whaleslayer_local
 
@@ -59,8 +59,8 @@ services:
     ports:
     - "10.0.0.1:8080:80"
     environment:
-    - PGADMIN_EMAIL=${PGADMIN_EMAIL}
-    - PGADMIN_PASSWORD=${PGADMIN_PASSWORD}
+    - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+    - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     env_file:
     - /root/projects/whaleslayer/.env
     volumes:
