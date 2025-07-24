@@ -53,6 +53,7 @@ pipeline {
                 echo "[*] Назначение прав доступа юзеру БД"
                 ssh root@${ip} '
                 cd ./projects/whaleslayer/database &&
+                mkdir -p ~/projects/whaleslayer/database/pgdata &&
                 chown -R 999:999 ./pgdata || true &&
                 sudo chown 999:999 ./postgresql.conf &&
                 sudo chmod 644 ./postgresql.conf
