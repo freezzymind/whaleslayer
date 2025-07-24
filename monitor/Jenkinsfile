@@ -47,10 +47,17 @@ pipeline {
                 echo "[*] Копирование данных ветки с БД"
                 scp -r monitor/. root@${ip}:~/projects/whaleslayer/monitor
 
+                echo "[*] Назначение прав для volumes Grafana и pgAdmin"
+                ssh root@${ip} '
+                  chown -R 472:472 ~/projects/whaleslayer/monitor/grafana-data || true
+                  chown -R 5050:5050 ~/projects/whaleslayer/monitor/pgadmin_data || true
+                '
+
                 echo "[*] Проверка и создание сети whaleslayer_local"
                 ssh root@${ip} '
                   docker network inspect whaleslayer_local >/dev/null 2>&1 || docker network create whaleslayer_local
                 '
+                
                 echo "[*] Запуск мониторинга с использованием docker compose"
                 ssh root@${ip} '
                     cd ~/projects/whaleslayer/monitor &&
@@ -59,7 +66,7 @@ pipeline {
                     set +a &&
                     docker compose pull &&
                     docker compose up -d --remove-orphans
-                    '
+                '
 
                 echo "[*] Очистка директории от установочных файлов"
                 ssh root@${ip} '
