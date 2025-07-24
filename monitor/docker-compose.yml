@@ -8,8 +8,6 @@ services:
     restart: always
     environment:
       DATA_SOURCE_NAME: "postgresql://reader:${READER_PASSWORD}@${POSTGRES_DB}:5432/${POSTGRES_DB}?sslmode=disable"
-    networks:
-      - whaleslayer_local
   
   node_exporter:
     image: prom/node-exporter
@@ -31,17 +29,11 @@ services:
     restart: always
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    ports:
-      - "10.0.0.1:9090:9090"
-    networks:
-      - whaleslayer_local
 
   grafana:
     image: grafana/grafana
     container_name: grafana
     restart: always
-    ports:
-      - "10.0.0.1:3000:3000"
     environment:
       - GF_USER=${GF_USER}
       - GF_PASSWORD=${GF_PASSWORD}
@@ -49,15 +41,11 @@ services:
       - /root/projects/whaleslayer/.env
     volumes:
       - ./grafana-data:/var/lib/grafana
-    networks:
-      - whaleslayer_local
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
     restart: always
-    ports:
-    - "10.0.0.1:8080:80"
     environment:
     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
@@ -65,10 +53,3 @@ services:
     - /root/projects/whaleslayer/.env
     volumes:
     - ./pgadmin_data:/var/lib/pgadmin
-    networks:
-    - whaleslayer_local
-
-  
-networks:
-  whaleslayer_local:
-    external: true
