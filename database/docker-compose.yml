@@ -15,9 +15,3 @@ services:
       - ./init.generated.sql:/docker-entrypoint-initdb.d/init.sql
     command: -c config_file=/etc/postgresql/postgresql.conf
     shm_size: 512m
-    networks:
-      - whaleslayer_local
-
-networks:
-  whaleslayer_local:
-    external: true

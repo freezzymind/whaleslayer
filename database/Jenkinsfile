@@ -3,7 +3,7 @@ pipeline {
 
   parameters {
     choice(name: 'HOSTS', choices: ['JAPAN_61', 'HONGKONG_93', 'SINGAPUR_49'], description: 'Выбор серверов для деплоя')
-    choice(name: 'BRANCHES', choices: ['database'], description: 'Выбор веток проекта для деплоя')
+    choice(name: 'BRANCHES', choices: ['database', 'monitor'], description: 'Выбор веток проекта для деплоя')
   }
 
   tools {
@@ -49,11 +49,6 @@ pipeline {
 
                 echo "[*] Копирование данных ветки с БД"
                 scp -r database/. root@${ip}:~/projects/whaleslayer/database
-
-                echo "[*] Проверка и создание сети whaleslayer_local"
-                ssh root@${ip} '
-                  docker network inspect whaleslayer_local >/dev/null 2>&1 || docker network create whaleslayer_local
-                '
 
                 echo "[*] Назначение прав доступа юзеру БД"
                 ssh root@${ip} '
