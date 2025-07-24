@@ -7,6 +7,8 @@ services:
     restart: always
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      - whaleslayer_local
     env_file:
       - /root/projects/whaleslayer/.env
     volumes:
@@ -15,3 +17,7 @@ services:
       - ./init.generated.sql:/docker-entrypoint-initdb.d/init.sql
     command: -c config_file=/etc/postgresql/postgresql.conf
     shm_size: 512m
+
+networks:
+  whaleslayer_local:
+    external: true

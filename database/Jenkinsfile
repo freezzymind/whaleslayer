@@ -58,6 +58,11 @@ pipeline {
                 sudo chmod 644 ./postgresql.conf
                 '
 
+                echo "[*] Проверка и создание сети whaleslayer_local"
+                ssh root@${ip} '
+                  docker network inspect whaleslayer_local >/dev/null 2>&1 || docker network create whaleslayer_local
+                '
+
                 echo "[*] Сборка и деплой БД"
                 ssh root@${ip} '
                 cd ~/projects/whaleslayer/database &&
