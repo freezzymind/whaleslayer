@@ -49,6 +49,8 @@ pipeline {
 
                 echo "[*] Назначение прав для volumes Grafana и pgAdmin"
                 ssh root@${ip} '
+                  mkdir -p ~/projects/whaleslayer/monitor/grafana_data
+                  mkdir -p ~/projects/whaleslayer/monitor/pgadmin_data
                   chown -R 472:472 ~/projects/whaleslayer/monitor/grafana-data || true
                   chown -R 5050:5050 ~/projects/whaleslayer/monitor/pgadmin_data || true
                 '
