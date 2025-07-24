@@ -47,6 +47,10 @@ pipeline {
                 echo "[*] Копирование данных ветки с БД"
                 scp -r monitor/. root@${ip}:~/projects/whaleslayer/monitor
 
+                echo "[*] Проверка и создание сети whaleslayer_local"
+                ssh root@${ip} '
+                  docker network inspect whaleslayer_local >/dev/null 2>&1 || docker network create whaleslayer_local
+                '
                 echo "[*] Запуск мониторинга с использованием docker compose"
                 ssh root@${ip} '
                     cd ~/projects/whaleslayer/monitor &&
