@@ -43,8 +43,8 @@ services:
     ports:
       - "172.29.172.1:3000:3000"
     environment:
-      - GF_USER=${GF_USER}
-      - GF_PASSWORD=${GF_PASSWORD}
+      - GF_SECURITY_USER=${GF_USER}
+      - GF_SECURITY_PASSWORD=${GF_PASSWORD}
     env_file:
       - /root/projects/whaleslayer/.env
     volumes:
