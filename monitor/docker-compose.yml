@@ -23,7 +23,7 @@ services:
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
-      - '--web.listen-address=127.0.0.1:9100'
+      - '--web.listen-address=0.0.0.0:9100'
 
   prometheus:
     image: prom/prometheus
